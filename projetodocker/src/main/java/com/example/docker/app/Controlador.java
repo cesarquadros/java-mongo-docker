@@ -17,7 +17,7 @@ import com.example.docker.domain.Servico;
 import com.example.docker.domain.documento.PessoaDocumento;
 
 @RestController
-@RequestMapping("/api/pessoa")
+@RequestMapping("/api")
 public class Controlador {
 	
 	private Logger log = org.slf4j.LoggerFactory.getLogger(Controlador.class);
@@ -25,21 +25,43 @@ public class Controlador {
 	@Autowired
 	private Servico servico;
 	
-	@PostMapping
+	@GetMapping
+	public String helloDocker() {
+		return gerarHtml();
+	}
+	
+	@PostMapping("/pessoa")
 	public ResponseEntity<PessoaDocumento> salvar(@RequestBody PessoaDocumento pessoa){
 		log.info("Salvando pessoa: {}", pessoa);
 		return ResponseEntity.ok(this.servico.salvar(pessoa));
 	}
 	
-	@GetMapping
+	@GetMapping("/pessoa")
 	public ResponseEntity<List<PessoaDocumento>> listarPessoas(){
 		log.info("Buscando pessoa");
 		return ResponseEntity.ok(this.servico.listarPessoas());
 	}
 	
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/pessoa/{id}")
 	public ResponseEntity<String> deletar(@PathVariable String id){
 		log.info("Deletando pessoa");
 		return ResponseEntity.ok(servico.deletar(id));
+	}
+	
+	@GetMapping("/pessoa/{id}")
+	public ResponseEntity<PessoaDocumento> buscarPorId(@PathVariable String id){
+		log.info("Buscando pessoa por id");
+		return ResponseEntity.ok(servico.buscarPorId(id));
+	}
+	
+	protected String gerarHtml() {
+		return "<h1>Seja bem vindo</h1> "
+				+ "<h3>Projeto exemplo utilizando Docker, Springboot e mongoDB</h3>"
+				+ "<p>GET - localhost:8080/api/bemvindo -> Boas vindas</p>"
+				+ "<p>GET - localhost:8080/api/pessoas -> Retornar a lista de pessoas</p>"
+				+ "<p>GET - localhost:8080/api/pessoas/{id} -> Retorna uma pessoa pelo id\n</p>"
+				+ "<p>POST - localhost:8080/api/pessoas {\"nome\":\"teste\", \"sobrenome\":\"teste\"} -> salvar uma pessoa</p>"
+				+ "<p>DELETE - GET - localhost:8080/api/pessoas/{id} -> Deleta uma pessoa pelo id</p>";
+		
 	}
 }

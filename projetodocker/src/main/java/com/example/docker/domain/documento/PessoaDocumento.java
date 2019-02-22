@@ -3,7 +3,7 @@ package com.example.docker.domain.documento;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
+@Document(collection = "pessoa")
 public class PessoaDocumento {
 
 	@Id

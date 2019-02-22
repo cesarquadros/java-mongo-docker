@@ -3,5 +3,9 @@ server:
 
 spring:
   data.mongodb:
-    host: 172.22.0.2
-    port: 27017
+    uri: mongodb://java-docker-mongo:27017/pessoa-docker
+#    host: java-docker-mongo
+#    port: 27017
+
+logging:
+  file: logs/java-mongo-docker-log

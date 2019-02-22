@@ -26,4 +26,8 @@ public class Servico {
 	public String deletar(String id) {
 		return this.servico.deletar(id);
 	}
+	
+	public PessoaDocumento buscarPorId(String id) {
+		return this.servico.buscarPorId(id);
+	}
 }
