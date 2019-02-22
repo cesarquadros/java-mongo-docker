@@ -1,0 +1,25 @@
+version: '3'
+services: 
+  java:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    image: cesarquadros/java-docker-exemplo
+    container_name: java
+    ports:
+      - 8080:8888
+    networks: 
+      - java-mongo-network
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo
+    container_name: java-docker-mongo
+    ports:
+      - 27017:27017
+    command: mongod --smallfiles --logpath=/dev/null # --quiet
+    networks: 
+      - java-mongo-network
+networks: 
+  java-mongo-network:
+    driver: bridge
