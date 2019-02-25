@@ -5,19 +5,21 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.docker.domain.Servico;
 import com.example.docker.domain.documento.PessoaDocumento;
 
+import io.swagger.annotations.Api;
+
+@Api(value = "Pessoa", tags = "Pessoa")
 @RestController
-@RequestMapping("/api")
+@RequestMapping(value = "/api")
 public class Controlador {
 	
 	private Logger log = org.slf4j.LoggerFactory.getLogger(Controlador.class);
@@ -30,25 +32,25 @@ public class Controlador {
 		return gerarHtml();
 	}
 	
-	@PostMapping("/pessoa")
+	@RequestMapping(value = "/pessoa", method = RequestMethod.POST)
 	public ResponseEntity<PessoaDocumento> salvar(@RequestBody PessoaDocumento pessoa){
 		log.info("Salvando pessoa: {}", pessoa);
 		return ResponseEntity.ok(this.servico.salvar(pessoa));
 	}
 	
-	@GetMapping("/pessoa")
+	@RequestMapping(value = "/pessoa", method = RequestMethod.GET)
 	public ResponseEntity<List<PessoaDocumento>> listarPessoas(){
 		log.info("Buscando pessoa");
 		return ResponseEntity.ok(this.servico.listarPessoas());
 	}
 	
-	@DeleteMapping("/pessoa/{id}")
+	@RequestMapping(value = "/pessoa/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<String> deletar(@PathVariable String id){
 		log.info("Deletando pessoa");
 		return ResponseEntity.ok(servico.deletar(id));
 	}
 	
-	@GetMapping("/pessoa/{id}")
+	@RequestMapping(value = "/pessoa/{id}", method = RequestMethod.GET)
 	public ResponseEntity<PessoaDocumento> buscarPorId(@PathVariable String id){
 		log.info("Buscando pessoa por id");
 		return ResponseEntity.ok(servico.buscarPorId(id));
